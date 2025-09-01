@@ -1,74 +1,74 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Chakra - DCS Auction</title>
-
   <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
-
   <header>
-
     <div class="wrap row">
-
       <div class="title">🏆 Chakra '25 — <span class="muted">DCS Sports</span></div>
-
       <div class="spacer"></div>
-
       <button id="btnImport" class="ghost">Import</button>
-
-      <button id="btnExport" class="ghost">Export JSON</button>
-
+      <button id="btnExport" class="ghost">Export CSV</button>
       <button id="btnSettings" class="ghost">Settings</button>
-
       <button id="btnUndo" class="danger">Undo Last Sale</button>
-
     </div>
-
   </header>
 
-
   <main class="wrap" style="padding-bottom:24px;">
-
     <div class="grid">
-
       <section class="card">
-
         <h3>Teams</h3>
-
         <div id="teams" class="teams"></div>
-
         <div class="note" style="margin-top:8px">Tip: Click a team to make it the active bidder.</div>
-
       </section>
 
       <section class="card">
         <h3>Auction</h3>
         <div class="auction-panel">
-          <div class="timer" id="timer"><span id="timeLeft">--</span></div>
-          <div>
-            <div class="muted" id="activePlayerLabel">No player nominated</div>
-            <div class="price" id="currentBid">₹0</div>
-            <div class="chips" id="leadingTeam"></div>
+          <div class="timer-container">
+            <div class="timer-label">Timer</div>
+            <div class="timer" id="timer"><span id="timeLeft">--</span></div>
+          </div>
+          
+          <div class="auction-info">
+            <div class="info-row">
+              <div class="info-label">Name</div>
+              <div class="muted" id="activePlayerLabel">No player nominated</div>
+            </div>
+            
+            <div class="info-row">
+              <div class="info-label">Sports</div>
+              <div id="activePlayerSports" class="muted">-</div>
+            </div>
+            
+            <div class="info-row">
+              <div class="info-label">Achievements</div>
+              <div id="activePlayerAchievements" class="muted">-</div>
+            </div>
+            
+            <div class="price-container">
+              <div class="price" id="currentBid">$0M</div>
+              <div class="chips" id="leadingTeam"></div>
+            </div>
           </div>
         </div>
-        <div class="row" style="margin-top:10px">
-          <button id="bid50" class="primary">+ ₹50k</button>
-          <button id="bid100" class="primary">+ ₹100k</button>
-          <input id="customBid" type="number" min="0" placeholder="Custom increment (₹)" />
-          <button id="bidCustom" class="primary">Add</button>
-          <div class="spacer"></div>
-          <button id="sellBtn" class="success">Sell to Team</button>
-          <button id="resetBid" class="ghost">Reset Bid</button>
+        
+        <div class="bid-controls">
+          <div class="bid-buttons">
+            <button id="bid50" class="primary">+ $1M</button>
+            <button id="bid100" class="primary">+ $10M</button>
+            <input id="customBid" type="number" min="0" placeholder="Custom increment (M)" />
+            <button id="bidCustom" class="primary">Add</button>
+          </div>
+          
+          <div class="action-buttons">
+            <button id="sellBtn" class="success">Sell to Team</button>
+            <button id="resetBid" class="ghost">Reset Bid</button>
+          </div>
         </div>
       </section>
     </div>
@@ -93,45 +93,31 @@
           <option>5</option>
         </select>
         <select id="filterGender">
-
           <option value="">All Genders</option>
-
           <option>Male</option>
-
           <option>Female</option>
-
         </select>
-
         <select id="filterSports">
-
           <option value="">All Sports</option>
-
           <option>Cricket</option>
-
           <option>Football</option>
-
           <option>Basketball</option>
-
           <option>Volleyball</option>
-
         </select>
-
+        <select id="filterAchievements">
+          <option value="">All Achievements</option>
+          <option>Bowling king</option>
+          <option>Top Scorer</option>
+          <option>Champion</option>
+        </select>
         <select id="filterStatus">
-
           <option value="">All Status</option>
-
           <option>Available</option>
-
           <option>Nominated</option>
-
           <option>Sold</option>
-
         </select>
-
         <div class="spacer"></div>
-
         <button id="nominateBtn" class="warning">Nominate Player</button>
-
         <button id="randomNominateBtn" class="primary">🎲 Random Player</button>
       </div>
       <table>
@@ -142,6 +128,7 @@
             <th>Year</th>
             <th>Gender</th>
             <th>Sports</th>
+            <th>Achievements</th>
             <th>Base Value</th>
             <th>Status</th>
           </tr>
@@ -153,22 +140,31 @@
 
     <div class="footer">All data is in-memory until you export. No servers. No tracking. 🎯</div>
   </main>
+
   <div class="modal-backdrop" id="importModal">
     <div class="modal">
       <div class="row"><h3>Import Data</h3><div class="spacer"></div><button class="ghost" onclick="closeModal('importModal')">Close</button></div>
-      <p class="note">Import Players (CSV or JSON). For CSV, headers: <b>Name,Course,Year,Gender,Sports,BaseValue</b>. Optionally import Teams via JSON.</p>
+      <p class="note">Import Players (CSV or JSON). For CSV, headers: <b>Name,Course,Year,Gender,Sports,Achievements,BaseValue</b>. Optionally import Teams via JSON.</p>
       <div class="row" style="align-items:flex-start; gap:16px">
-        <div class="card" style="flex:1">
-          <h3>Players</h3>
-          <input type="file" id="playersFile" accept=".csv,.json" />
-          <div class="note">CSV example:<br>Riya Nair,B.Arch,2,Female,Basketball,150000</div>
-          <button class="primary" id="importPlayersBtn" style="margin-top:8px">Import Players</button>
-        </div>
-        <div class="card" style="flex:1">
-          <h3>Teams (JSON)</h3>
-          <input type="file" id="teamsFile" accept=".json" />
-          <div class="note">Structure: [{name, initialBudget, remainingBudget, maleSlots, femaleSlots}]</div>
-          <button class="primary" id="importTeamsBtn" style="margin-top:8px">Import Teams</button>
+        <div class="row" style="align-items:flex-start; gap:16px">
+          <div class="card" style="flex:1">
+            <h3>Players</h3>
+            <input type="file" id="playersFile" accept=".csv,.json" />
+            <div class="note">CSV example:<br>Riya Nair,B.Arch,2,Female,Basketball,Bowling king,1</div>
+            <button class="primary" id="importPlayersBtn" style="margin-top:8px">Import Players</button>
+          </div>
+          <div class="card" style="flex:1">
+            <h3>Teams (JSON)</h3>
+            <input type="file" id="teamsFile" accept=".json" />
+            <div class="note">Structure: [{name, initialBudget, remainingBudget, maleSlots, femaleSlots}]</div>
+            <button class="primary" id="importTeamsBtn" style="margin-top:8px">Import Teams</button>
+          </div>
+          <div class="card" style="flex:1">
+            <h3>Resume Auction from CSV</h3>
+            <input type="file" id="resumeFile" accept=".csv" />
+            <div class="note">Select an `auction_summary.csv` file you exported previously to restore your progress.</div>
+            <button class="success" id="resumeBtn" style="margin-top:8px">Load Progress</button>
+          </div>
         </div>
       </div>
     </div>
@@ -181,11 +177,11 @@
         <label>Round Timer (seconds)<br>
           <input id="settingTimer" type="number" min="5" value="15" />
         </label>
-        <label>Default +₹50k Value<br>
-          <input id="settingStep50" type="number" min="500" value="50000" />
+        <label>Default +$1M Value<br>
+          <input id="settingStep50" type="number" min="1" value="1" />
         </label>
-        <label>Default +₹100k Value<br>
-          <input id="settingStep100" type="number" min="1000" value="100000" />
+        <label>Default +$10M Value<br>
+          <input id="settingStep100" type="number" min="10" value="10" />
         </label>
       </div>
       <div class="row" style="margin-top:10px">
@@ -193,10 +189,7 @@
       </div>
     </div>
   </div>
-  
+
   <script src="script.js"></script>
 </body>
 </html>
-
-
-
