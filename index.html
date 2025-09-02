@@ -10,11 +10,15 @@
   <header>
     <div class="wrap row">
       <div class="title">🏆 Chakra '25 — <span class="muted">DCS Sports</span></div>
+      <div id="live-code-display" class="live-code-container"></div>
       <div class="spacer"></div>
-      <button id="btnImport" class="ghost">Import</button>
-      <button id="btnExport" class="ghost">Export CSV</button>
-      <button id="btnSettings" class="ghost">Settings</button>
-      <button id="btnUndo" class="danger">Undo Last Sale</button>
+      <div class="header-buttons">
+        <button id="btnImport" class="ghost">Import</button>
+        <button id="btnExport" class="ghost">Export CSV</button>
+        <button id="btnBroadcast" class="success">Broadcast Live</button>
+        <button id="btnSettings" class="ghost">Settings</button>
+        <button id="btnUndo" class="danger">Undo Last Sale</button>
+      </div>
     </div>
   </header>
 
@@ -59,8 +63,8 @@
         
         <div class="bid-controls">
           <div class="bid-buttons">
-            <button id="bid50" class="primary">+ $1M</button>
-            <button id="bid100" class="primary">+ $10M</button>
+            <button id="bid1" class="primary">+ $1M</button>
+            <button id="bid10" class="primary">+ $10M</button>
             <input id="customBid" type="number" min="0" placeholder="Custom increment (M)" />
             <button id="bidCustom" class="primary">Add</button>
           </div>
@@ -97,44 +101,36 @@
           <option>Male</option>
           <option>Female</option>
         </select>
-        <select id="filterSports">
-          <option value="">All Sports</option>
-          <option>Cricket</option>
-          <option>Football</option>
-          <option>Basketball</option>
-          <option>Volleyball</option>
-        </select>
-        <select id="filterAchievements">
-          <option value="">All Achievements</option>
-          <option>Bowling king</option>
-          <option>Top Scorer</option>
-          <option>Champion</option>
+        
+        <select id="filterTeam">
+          <option value="">All Teams</option>
         </select>
         <select id="filterStatus">
           <option value="">All Status</option>
           <option>Available</option>
-          <option>Nominated</option>
           <option>Sold</option>
         </select>
         <div class="spacer"></div>
         <button id="nominateBtn" class="warning">Nominate Player</button>
         <button id="randomNominateBtn" class="primary">🎲 Random Player</button>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Course</th>
-            <th>Year</th>
-            <th>Gender</th>
-            <th>Sports</th>
-            <th>Achievements</th>
-            <th>Base Value</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="playerBody"></tbody>
-      </table>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Course</th>
+              <th>Year</th>
+              <th>Gender</th>
+              <th>Sports</th>
+              <th>Achievements</th>
+              <th>Base Value</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="playerBody"></tbody>
+        </table>
+      </div>
       <div class="note">Select a player row, then click <span class="kbd">Nominate Player</span> to start bidding. Active player row will glow.</div>
     </section>
 
@@ -144,7 +140,7 @@
   <div class="modal-backdrop" id="importModal">
     <div class="modal">
       <div class="row"><h3>Import Data</h3><div class="spacer"></div><button class="ghost" onclick="closeModal('importModal')">Close</button></div>
-      <p class="note">Import Players (CSV or JSON). For CSV, headers: <b>Name,Course,Year,Gender,Sports,Achievements,BaseValue</b>. Optionally import Teams via JSON.</p>
+      <p class="note">Import Players (CSV or JSON). For CSV, headers: <b>Name,Course,Year,Gender,Sports,Achievements,BaseValue</b>. Optionally import Teams via CSV.</p>
       <div class="row" style="align-items:flex-start; gap:16px">
         <div class="row" style="align-items:flex-start; gap:16px">
           <div class="card" style="flex:1">
@@ -154,9 +150,9 @@
             <button class="primary" id="importPlayersBtn" style="margin-top:8px">Import Players</button>
           </div>
           <div class="card" style="flex:1">
-            <h3>Teams (JSON)</h3>
-            <input type="file" id="teamsFile" accept=".json" />
-            <div class="note">Structure: [{name, initialBudget, remainingBudget, maleSlots, femaleSlots}]</div>
+            <h3>Teams (CSV)</h3>
+            <input type="file" id="teamsFile" accept=".csv" />
+            <div class="note">Headers: <b>Name,InitialBudget,MaleSlots,FemaleSlots</b><br>Example: Falcons,500,12,5</div>
             <button class="primary" id="importTeamsBtn" style="margin-top:8px">Import Teams</button>
           </div>
           <div class="card" style="flex:1">
@@ -169,7 +165,6 @@
       </div>
     </div>
   </div>
-
   <div class="modal-backdrop" id="settingsModal">
     <div class="modal">
       <div class="row"><h3>Auction Settings</h3><div class="spacer"></div><button class="ghost" onclick="closeModal('settingsModal')">Close</button></div>
@@ -177,11 +172,11 @@
         <label>Round Timer (seconds)<br>
           <input id="settingTimer" type="number" min="5" value="15" />
         </label>
-        <label>Default +$1M Value<br>
-          <input id="settingStep50" type="number" min="1" value="1" />
+        <label>Quick Bid / Team Click ($M)<br>
+          <input id="settingStep1" type="number" min="1" value="1" />
         </label>
-        <label>Default +$10M Value<br>
-          <input id="settingStep100" type="number" min="10" value="10" />
+        <label>Primary Bid Button ($M)<br>
+          <input id="settingStep10" type="number" min="1" value="10" />
         </label>
       </div>
       <div class="row" style="margin-top:10px">
@@ -190,6 +185,9 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  
   <script src="script.js"></script>
 </body>
 </html>
