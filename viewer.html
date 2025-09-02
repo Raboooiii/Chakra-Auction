@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Auction View - Chakra '25</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    header .title::after {
+      content: 'Live View';
+      background: #ff6b6b;
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .connection-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 50vh;
+    }
+    .connection-screen input {
+        text-align: center;
+        font-size: 24px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        width: 200px;
+        margin: 16px 0;
+    }
+    .connection-screen button {
+        font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap row">
+      <div class="title">🏆 Chakra '25 — <span class="muted">DCS Sports</span></div>
+      <div class="spacer"></div>
+      <button id="change-session-btn" class="ghost" style="display: none;">Change Code</button>
+    </div>
+  </header>
+
+  <div id="connection-screen" class="wrap connection-screen">
+    <h2>Connect to Live Auction</h2>
+    <p class="note">Enter the 6-character code provided by the auctioneer.</p>
+    <input type="text" id="session-code-input" maxlength="6" placeholder="ABC123" autocomplete="off">
+    <button id="connect-btn" class="primary">Connect</button>
+    <p id="error-display" class="note" style="color:var(--danger); margin-top:12px; height: 1em;"></p>
+  </div>
+
+  <main id="main-content" class="wrap" style="display: none; padding-bottom:24px;">
+    <div class="grid">
+      <section class="card">
+        <h3>Teams</h3>
+        <div id="teams" class="teams"></div>
+      </section>
+
+      <section class="card">
+        <h3>Auction</h3>
+        <div class="auction-panel">
+          <div class="timer-container">
+            <div class="timer-label">Timer</div>
+            <div class="timer" id="timer"><span id="timeLeft">--</span></div>
+          </div>
+          <div class="auction-info">
+            <div class="info-row">
+              <div class="info-label">Name</div>
+              <div class="muted" id="activePlayerLabel">Waiting for auction to start...</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">Sports</div>
+              <div id="activePlayerSports" class="muted">-</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">Achievements</div>
+              <div id="activePlayerAchievements" class="muted">-</div>
+            </div>
+            <div class="price-container">
+              <div class="price" id="currentBid">$0M</div>
+              <div class="chips" id="leadingTeam"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:16px">
+      <h3>Players</h3>
+      <div class="filters" style="margin-bottom:8px">
+        <input type="text" id="search" placeholder="Search name…" />
+        <select id="filterTeam">
+          <option value="">All Teams</option>
+        </select>
+        <select id="filterStatus">
+          <option value="">All Status</option>
+          <option value="Available">Available</option>
+          <option value="Sold">Sold</option>
+        </select>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Course</th>
+              <th>Year</th>
+              <th>Gender</th>
+              <th>Sports</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="playerBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="footer">Live View 📡</div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script src="viewer.js"></script>
+</body>
+</html>
