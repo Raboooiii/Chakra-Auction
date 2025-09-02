@@ -15,10 +15,10 @@ const state = {
 // =================== LATEST PLAYER DATA INSERTED HERE ===================
 function seedDemo(){
   state.teams = [
-    mkTeam('Falcons', 400, 12, 5),
-    mkTeam('Titans', 400, 12, 5),
-    mkTeam('Warriors', 400, 12, 5),
-    mkTeam('Spartans', 400, 12, 5)
+    mkTeam('Falcons', 500, 12, 5),
+    mkTeam('Titans', 500, 12, 5),
+    mkTeam('Warriors', 500, 12, 5),
+    mkTeam('Spartans', 500, 12, 5)
   ];
   state.players = [
     mkPlayer('Ziyana Ahammed S A P', 'IMSc', '2', 'Female', 'Football, Badminton, Basket Ball, Volleyball, Handball, Table Tennis, Athletics', 'Participated in college levels', 1),
@@ -495,7 +495,7 @@ function flash(msg){
   const b = document.createElement('div');
   b.textContent = msg; b.style.position='fixed'; b.style.bottom='16px'; b.style.left='50%'; b.style.transform='translateX(-50%)';
   b.style.background='rgba(0,0,0,.75)'; b.style.color='white'; b.style.padding='10px 14px'; b.style.borderRadius='10px'; b.style.zIndex='9999';
-  document.body.appendChild(b); setTimeout(()=>{ b.style.transition='opacity .4s'; b.style.opacity='0'; setTimeout(()=>b.remove(),400); }, 1200);
+  document.body.appendChild(b); setTimeout(()=>{ b.style.transition='opacity .4s'; b.style.opacity='0'; setTimeout(()=>b.remove(),500); }, 1200);
 }
 
 // ---------------------- Events ----------------------
