@@ -49,7 +49,7 @@ const firebaseConfig = {
     body.innerHTML = '';
     filteredPlayers().forEach(p=>{
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${escapeHtml(p.name)}</td><td>${p.course}</td><td>${p.year}</td><td>${p.gender}</td><td>${p.sports}</td><td>${renderStatus(p)}</td>`;
+      tr.innerHTML = `<td>${escapeHtml(p.name)}</td><td>${p.course}</td><td>${p.year}</td><td>${p.gender}</td><td>${renderStatus(p)}</td>`;
       body.appendChild(tr);
     });
     function filteredPlayers(){
