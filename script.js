@@ -15,10 +15,10 @@ const firebaseConfig = {
 
  let sessionID = null; 
  let isBroadcasting = false; 
- let nextPlayerCountdownInterval = null; // NEW: To manage the auto-nomination timer
+ let nextPlayerCountdownInterval = null;
 
  const state = { 
-  settings: { timerSeconds: 15, step1: 1, step10: 10 }, 
+  settings: { timerSeconds: 30 }, 
   teams: [], 
   players: [], 
   selectedTeamId: null, 
@@ -92,72 +92,70 @@ const firebaseConfig = {
     mkTeam('Spartans', 500, 12, 5) 
   ]; 
   state.players = [ 
-    mkPlayer('Ziyana Ahammed S A P', 'IMSc', '2', 'Female', 'Football, Badminton, Basket Ball, Volleyball, Handball, Table Tennis, Athletics', 'Nil', 0),
-    mkPlayer('Vishnu B L', 'MTech', '1', 'Male', 'Badminton, Volleyball, Cricket', 'Participated in college levels', 0),
-    mkPlayer('Tony George', 'MTech', '1', 'Male', 'Football', 'NIL', 0),
-    mkPlayer('Thejus s', 'IMSc', '3', 'Male', 'Football, Badminton, Basket Ball, Kho-Kho, Handball, Cricket, Athletics', 'Speed-99 Ball control-99 Possession-98 Finishing-99', 0),
-    mkPlayer('Theja R', 'IMSc', '2', 'Female', 'Basket Ball, Kho-Kho, Table Tennis', 'Nil', 0),
-    mkPlayer('Sugithra C S', 'MTech', '1', 'Female', 'Badminton, Chess', 'I have participated international chess competition in 2018 conducted in St Alberts college Ernakulam', 0),
-    mkPlayer('Sreenanda Sunil', 'IMSc', '1', 'Female', 'Badminton, Chess, Kho-Kho', 'Nil', 0),
-    mkPlayer('SNEHAL', 'IMSc', '3', 'Male', 'Football, Badminton, Volleyball, Kho-Kho, Table Tennis, Cricket, Athletics', 'NJN KORACH ADHIGAM SCN AAHN.. IPRAVSHYAM ONNUDE MOOD AAVM 🔥', 0),
-    mkPlayer('Sivakanth J', 'IMSc', '1', 'Male', 'Football, Badminton, Basket Ball, Cricket', 'Football : school team Cricket : sub district team x2', 0),
-    mkPlayer('Shreyas R', 'MTech', '2', 'Male', 'Football', '.', 0),
-    mkPlayer('Shiyas', 'IMSc', '4', 'Male', 'Football, Badminton, Volleyball, Kho-Kho, Table Tennis, Cricket', '........', 0),
-    mkPlayer('Salman Faris', 'IMSc', '4', 'Male', 'Badminton, Handball, Cricket', 'None', 0),
-    mkPlayer('Saahil sl', 'MTech', '1', 'Male', 'Football, Badminton, Volleyball', 'Nathing🙂', 0),
-    mkPlayer('Rabeah Basheer', 'IMSc', '3', 'Male', 'Football, Badminton, Chess, Basket Ball, Volleyball, Kho-Kho, Handball, Table Tennis, Athletics', 'None', 0),
-    mkPlayer('Pranav M P', 'IMSc', '2', 'Male', 'Badminton', 'Nothing', 0),
-    mkPlayer('Prajul P', 'IMSc', '2', 'Male', 'Football, Badminton, Chess, Basket Ball, Volleyball, Kho-Kho, Handball, Table Tennis, Cricket, Athletics, Special games🌝', 'Njn pandeee scnn ahn ninkk onnum ariyathe aal ahn🌝🌝🥱🥱', 0),
-    mkPlayer('Nysa Shajan Babu', 'IMSc', '1', 'Female', 'Badminton, Table Tennis, Athletics', 'Used to play badminton', 0),
-    mkPlayer('Nitin Joseph Edward', 'IMSc', '1', 'Male', 'Football', 'Salesia interschool competition', 0),
-    mkPlayer('Nidal Naaz Luckman', 'IMSc', '3', 'Male', 'Volleyball, None', 'Volleyball, winner', 0),
-    mkPlayer('Nazal', 'IMSc', '4', 'Male', 'Football, Basket Ball, Volleyball, Kho-Kho, Handball, Athletics', '.', 0),
-    mkPlayer('Nandana', 'IMSc', '2', 'Female', 'Badminton, Volleyball', 'Nil', 0),
-    mkPlayer('Nabeel Nazeer', 'IMSc', '4', 'Male', 'Volleyball, Kho-Kho, Athletics', 'Participated in athletics last year', 0),
-    mkPlayer('Muhammed Afshan E A', 'IMSc', '1', 'Male', 'Football, Badminton, Athletics', 'I used to play football in school team, Badminton in local', 0),
-    mkPlayer('MINHAJ ALI', 'IMSc', '2', 'Male', 'Football, Badminton, Chess, Kho-Kho, Handball, Table Tennis, Cricket, Athletics', 'Rabeah Memorial 🏆', 0),
-    mkPlayer('Midhun Madhav PM', 'IMSc', '1', 'Male', 'Football, Badminton, Cricket', 'Played school team', 0),
-    mkPlayer('Manu M J', 'MTech', '1', 'Male', 'Badminton', 'No much achievements. I just play.', 0),
-    mkPlayer('Maleeha Fathima', 'IMSc', '1', 'Female', 'Badminton, Athletics', 'Has won prizes in athletics in school and also were part of a badminton coaching.', 0),
-    mkPlayer('LAKSHMI G BABU', 'MTech', '1', 'Female', 'Chess', 'Nil', 0),
-    mkPlayer('Keerthana K S', 'IMSc', '2', 'Female', 'Badminton, Kho-Kho, Athletics', '100 m ,kho-kho school level acheivements', 0),
-    mkPlayer('Joseph Varghese', 'IMSc', '3', 'Male', 'Football, Volleyball, Athletics', 'So much is there to mention', 0),
-    mkPlayer('Hena Fathima', 'IMSc', '1', 'Female', 'Kho-Kho, Athletics', 'I’ve participated in district level athletics', 0),
-    mkPlayer('Hannath C Shabeer', 'IMSc', '2', 'Female', 'Basket Ball, Volleyball, Kho-Kho, Handball, Athletics', 'Nil', 0),
-    mkPlayer('Gouri M R', 'IMSc', '1', 'Female', 'Kho-Kho', 'nil', 0),
-    mkPlayer('Gokul G', 'IMSc', '1', 'Male', 'Football, Badminton, Cricket', 'Got gold medal in school tournament', 0),
-    mkPlayer('Ganga Kailas', 'IMSc', '4', 'Female', 'Basket Ball', 'Have won in within department basketball competition.', 0),
-    mkPlayer('Ganesh', 'IMSc', '4', 'Male', 'Badminton, Volleyball, Kho-Kho, Table Tennis', '.....', 0),
-    mkPlayer('Finson', 'IMSc', '4', 'Male', 'Football, Badminton, Chess, Basket Ball, Cricket', 'Nothing', 0),
-    mkPlayer('Feona Varghese', 'IMSc', '2', 'Female', 'Kho-Kho', 'Nil', 0),
-    mkPlayer('Feby Mathew Joseph', 'MTech', '1', 'Male', 'Football, Badminton', 'Inter college football tournament winner', 0),
-    mkPlayer('Fayaz Azeem', 'MTech', '1', 'Male', 'Table Tennis', 'N/A', 0),
-    mkPlayer('Fathima Rida P S', 'IMSc', '2', 'Female', 'Kho-Kho, Table Tennis', 'onnoolya', 0),
-    mkPlayer('Fahad Abdulla', 'IMSc', '1', 'Male', 'Football', 'District sohadaya Runner up', 0),
-    mkPlayer('Fadil Rahman', 'IMSc', '2', 'Male', 'Badminton, Athletics', 'Nah', 0),
-    mkPlayer('Dinil kk', 'IMSc', '4', 'Male', 'Basket Ball, Volleyball, Handball', 'Onn poyedaa', 0),
-    mkPlayer('Devipriya P.R', 'IMSc', '2', 'Female', 'Football, Badminton, Volleyball, Kho-Kho, Table Tennis', 'Nothing', 0),
-    mkPlayer('Deva Nandanan R', 'IMSc', '1', 'Male', 'Football, Badminton, Basket Ball, Volleyball, Kho-Kho, Cricket', 'Don\'t have an achievement but I am ready to try my best...', 0),
-    mkPlayer('Daniel Suresh', 'MTech', '2', 'Male', 'Football', 'Participated in Sahodya, KTU B.Tech District Level Competitions', 0),
-    mkPlayer('Bilal Ahamed PT', 'MTech', '1', 'Male', 'Badminton', 'Badminton third prize - btech dept', 0),
-    mkPlayer('Basil', 'IMSc', '2', 'Male', 'Basket Ball, Volleyball, Kho-Kho', 'State player (martial art)', 0),
-    mkPlayer('Athulkrishna K', 'IMSc', '2', 'Male', 'Badminton, Kho-Kho, Table Tennis, Athletics', 'Nothing', 0),
-    mkPlayer('Aswin', 'IMSc', '3', 'Male', 'Football, Kho-Kho, Cricket, Athletics', 'None', 0),
-    mkPlayer('Ashiq Ali N K', 'IMSc', '2', 'Male', 'Football, Badminton, Basket Ball, Volleyball, Kho-Kho, Handball, Cricket, Athletics, Aalu illathe ethu sportsinum vilicho', 'Mini-Marathon second in highschool.', 0),
-    mkPlayer('Ashfaq Hussain M S', 'IMSc', '4', 'Male', 'Football, Badminton, Basket Ball, Volleyball, Kho-Kho, Handball, Table Tennis, Cricket, Athletics', 'NIL🌝', 0),
-    mkPlayer('Anujith p p', 'IMSc', '3', 'Male', 'Volleyball, Kho-Kho, Handball, Cricket, Athletics', '✊', 0),
-    mkPlayer('ANKITHA T', 'IMSc', '1', 'Female', 'Badminton', 'Nil', 0),
-    mkPlayer('Anaswara', 'IMSc', '2', 'Female', 'Badminton', '.', 0),
-    mkPlayer('Anand ES', 'IMSc', '1', 'Male', 'Football, Badminton, Chess, Cricket, Athletics,', 'Javelin 2nd 200m 3rd', 0),
-    mkPlayer('Amjad K P', 'IMSc', '4', 'Male', 'Football, Chess, Basket Ball, Volleyball, Kho-Kho, Handball, Cricket, Athletics', '..', 0),
-    mkPlayer('Amal Mehabin P', 'IMSc', '3', 'Male', 'Football, Chess, Volleyball', 'Njammal koodiya ellaththilum jayichchukkinu', 0),
-    mkPlayer('Akshay K S', 'IMSc', '5', 'Male', 'Football, Badminton, Chess, Basket Ball, Volleyball, Kho-Kho, Handball, Table Tennis, Cricket, Athletics,', 'Only available after 6pm on working days. Sat & sun full free', 0),
-    mkPlayer('Ajay S', 'IMSc', '2', 'Male', 'Football, Chess, Table Tennis', 'Nil', 0),
-    mkPlayer('Ahmed Sultan', 'IMSc', '2', 'Male', 'Football, Basket Ball, Cricket', 'Namma THALA Ellame Jay', 0),
-    mkPlayer('Adithyan M P', 'IMSc', '4', 'Male', 'Badminton, Volleyball, Cricket,', 'Nothing', 0),
-    mkPlayer('ABHIN S KRISHNA', 'MTech', '1', 'Male', 'Football, Badminton, Chess, Volleyball, Table Tennis, Athletics', 'Volleyball', 0),
-    mkPlayer('Abhijith Shaji', 'IMSc', '1', 'Male', 'Football, Badminton, Chess, Volleyball, Kho-Kho, Cricket, Athletics', 'Nothing specific, just have won a few team matches and some iconic individual performances and trials.', 0),
-    mkPlayer('Aadithya Sankar', 'MTech', '2', 'Male', 'Football', '.', 0)
+    mkPlayer('Nazal', 'IMSc', '4', 'Male', 'Football, Basket Ball, Volleyball, Kho-Kho, Handball, Athletics', '.', 50),
+    mkPlayer('Rabeah Basheer', 'IMSc', '3', 'Male', 'Football, Badminton, Chess, Basket Ball, Volleyball, Kho-Kho, Handball, Table Tennis, Athletics', 'None', 50),
+    mkPlayer('Prajul P', 'IMSc', '2', 'Male', 'Football, Badminton, Chess, Basket Ball, Volleyball, Kho-Kho, Handball, Table Tennis, Cricket, Athletics, Special games??', 'Njn pandeee scnn ahn ninkk onnum ariyathe aal ahn????????', 50),
+    mkPlayer('Amjad K P', 'IMSc', '4', 'Male', 'Football, Chess, Basket Ball, Volleyball, Kho-Kho, Handball, Cricket, Athletics', '..', 50),
+    mkPlayer('MINHAJ ALI', 'IMSc', '2', 'Male', 'Football, Badminton, Chess, Kho-Kho, Handball, Table Tennis, Cricket, Athletics', 'Rabeah Memorial ??', 20),
+    mkPlayer('Ajay S', 'IMSc', '2', 'Male', 'Football, Chess, Table Tennis', 'Nil', 20),
+    mkPlayer('Ziyana Ahammed S A P', 'IMSc', '2', 'Female', 'Football, Badminton, Basket Ball, Volleyball, Handball, Table Tennis, Athletics', 'Nil', 20),
+    mkPlayer('Keerthana K S', 'IMSc', '2', 'Female', 'Badminton, Kho-Kho, Athletics', '100 m ,kho-kho school level acheivements', 20),
+    mkPlayer('Thejus s', 'IMSc', '3', 'Male', 'Football, Badminton, Basket Ball, Kho-Kho, Handball, Cricket, Athletics', 'Speed-99 Ball control-99 Possession-98 Finishing-99', 20),
+    mkPlayer('SNEHAL', 'IMSc', '3', 'Male', 'Football, Badminton, Volleyball, Kho-Kho, Table Tennis, Cricket, Athletics', 'NJN KORACH ADHIGAM SCN AAHN.. IPRAVSHYAM ONNUDE MOOD AAVM ??', 20),
+    mkPlayer('Aswin', 'IMSc', '3', 'Male', 'Football, Kho-Kho, Cricket, Athletics', 'None', 20),
+    mkPlayer('Amal Mehabin P', 'IMSc', '3', 'Male', 'Football, Chess, Volleyball', 'Njammal koodiya ellaththilum jayichchukkinu', 20),
+    mkPlayer('Anujith p p', 'IMSc', '3', 'Male', 'Volleyball, Kho-Kho, Handball, Cricket, Athletics', '?', 20),
+    mkPlayer('Nabeel Nazeer', 'IMSc', '4', 'Male', 'Volleyball, Kho-Kho, Athletics', 'Participated in athletics last year', 20),
+    mkPlayer('ABHIN S KRISHNA', 'MTech', '1', 'Male', 'Football, Badminton, Chess, Volleyball, Table Tennis, Athletics', 'Volleyball', 20),
+    mkPlayer('Ashfaq Hussain M S', 'IMSc', '4', 'Male', 'Football, Badminton, Basket Ball, Volleyball, Kho-Kho, Handball, Table Tennis, Cricket, Athletics', 'NIL??', 20),
+    mkPlayer('Ganga Kailas', 'IMSc', '4', 'Female', 'Basket Ball', 'Have won in within department basketball competition.', 10),
+    mkPlayer('Finson', 'IMSc', '4', 'Female', 'Football, Badminton, Chess, Basket Ball, Cricket', 'Nothing', 20),
+    mkPlayer('Dinil kk', 'IMSc', '4', 'Female', 'Basket Ball, Volleyball, Handball', 'Onn poyedaa', 20),
+    mkPlayer('Akshay K S', 'IMSc', '5', 'Male', 'Football, Badminton, Chess, Basket Ball, Volleyball, Kho-Kho, Handball, Table Tennis, Cricket, Athletics', 'Only available after 6pm on working days. Sat & sun full free', 20),
+    mkPlayer('Ganesh', 'IMSc', '4', 'Male', 'Badminton, Volleyball, Kho-Kho, Table Tennis', '.....', 20),
+    mkPlayer('Basil', 'IMSc', '2', 'Male', 'Basket Ball, Volleyball, Kho-Kho', 'State player (martial art)', 10),
+    mkPlayer('Ashiq Ali N K', 'IMSc', '2', 'Male', 'Football, Badminton, Basket Ball, Volleyball, Kho-Kho, Handball, Cricket, Athletics, Aalu illathe ethu sportsinum vilicho', 'Mini-Marathon second in highschool.', 10),
+    mkPlayer('Joseph Varghese', 'IMSc', '3', 'Male', 'Football, Volleyball, Athletics', 'So much is there to mention', 10),
+    mkPlayer('Shiyas', 'IMSc', '4', 'Male', 'Football, Badminton, Volleyball, Kho-Kho, Table Tennis, Cricket', '........', 10),
+    mkPlayer('Adithyan M P', 'IMSc', '4', 'Male', 'Badminton, Volleyball, Cricket', 'Nothing', 10),
+    mkPlayer('Aadithya Sankar', 'MTech', '2', 'Male', 'Football', '.', 10),
+    mkPlayer('Sivakanth J', 'IMSc', '1', 'Male', 'Football, Badminton, Basket Ball, Cricket', 'Football : school team Cricket : sub district team x2', 5),
+    mkPlayer('Nitin Joseph Edward', 'IMSc', '1', 'Male', 'Football', 'Salesia interschool competition', 5),
+    mkPlayer('Muhammed Afshan E A', 'IMSc', '1', 'Male', 'Football, Badminton, Athletics', 'I used to play football in school team, Badminton in local', 5),
+    mkPlayer('Midhun Madhav PM', 'IMSc', '1', 'Male', 'Football, Badminton, Cricket', 'Played school team', 5),
+    mkPlayer('Gokul G', 'IMSc', '1', 'Male', 'Football, Badminton, Cricket', 'Got gold medal in school tournament', 5),
+    mkPlayer('Fahad Abdulla', 'IMSc', '1', 'Male', 'Football', 'District sohadaya Runner up', 5),
+    mkPlayer('Deva Nandanan R', 'IMSc', '1', 'Male', 'Football, Badminton, Basket Ball, Volleyball, Kho-Kho, Cricket', 'Don\'t have an achievement but I am ready to try my best...', 5),
+    mkPlayer('Abhijith Shaji', 'IMSc', '1', 'Male', 'Football, Badminton, Chess, Volleyball, Kho-Kho, Cricket, Athletics', 'Nothing specific, just have won a few team matches and some iconic individual performances and trials.', 5),
+    mkPlayer('Sreenanda Sunil', 'IMSc', '1', 'Female', 'Badminton, Chess, Kho-Kho', 'Nil', 5),
+    mkPlayer('Maleeha Fathima', 'IMSc', '1', 'Female', 'Badminton, Athletics', 'Has won prizes in athletics in school and also were part of a badminton coaching.', 5),
+    mkPlayer('Hena Fathima', 'IMSc', '1', 'Female', 'Kho-Kho, Athletics', 'I’ve participated in district level athletics', 5),
+    mkPlayer('Gouri M R', 'IMSc', '1', 'Female', 'Kho-Kho', 'nil', 5),
+    mkPlayer('ANKITHA T', 'IMSc', '1', 'Female', 'Badminton', 'Nil', 5),
+    mkPlayer('Pranav M P', 'IMSc', '2', 'Male', 'Badminton', 'Nothing', 5),
+    mkPlayer('Feona Varghese', 'IMSc', '2', 'Male', 'Kho-Kho', 'Nil', 5),
+    mkPlayer('Fadil Rahman', 'IMSc', '2', 'Male', 'Badminton, Athletics', 'Nah', 5),
+    mkPlayer('Devipriya P.R', 'IMSc', '2', 'Male', 'Football, Badminton, Volleyball, Kho-Kho, Table Tennis', 'Nothing', 5),
+    mkPlayer('Athulkrishna K', 'IMSc', '2', 'Male', 'Badminton, Kho-Kho, Table Tennis, Athletics', 'Nothing', 5),
+    mkPlayer('Anaswara', 'IMSc', '2', 'Male', 'Badminton', '.', 5),
+    mkPlayer('Ahmed Sultan', 'IMSc', '2', 'Male', 'Football, Basket Ball, Cricket', 'Namma THALA', 5),
+    mkPlayer('Theja R', 'IMSc', '2', 'Female', 'Basket Ball, Kho-Kho, Table Tennis', 'Nil', 5),
+    mkPlayer('Nandana', 'IMSc', '2', 'Female', 'Badminton, Volleyball', 'Nil', 5),
+    mkPlayer('Hannath C Shabeer', 'IMSc', '2', 'Female', 'Basket Ball, Volleyball, Kho-Kho, Handball, Athletics', 'Nil', 5),
+    mkPlayer('Fathima Rida P S', 'IMSc', '2', 'Female', 'Kho-Kho, Table Tennis', 'onnoolya', 5),
+    mkPlayer('Nidal Naaz Luckman', 'IMSc', '3', 'Male', 'Volleyball, None', 'Volleyball, winner', 5),
+    mkPlayer('Salman Faris', 'IMSc', '4', 'Male', 'Badminton, Handball, Cricket', 'None', 5),
+    mkPlayer('Vishnu B L', 'MTech', '1', 'Male', 'Badminton, Volleyball, Cricket', 'Participated in college levels', 5),
+    mkPlayer('Tony George', 'MTech', '1', 'Male', 'Football', 'NIL', 5),
+    mkPlayer('Saahil sl', 'MTech', '1', 'Male', 'Football, Badminton, Volleyball', 'Nathing??', 5),
+    mkPlayer('Manu M J', 'MTech', '1', 'Male', 'Badminton', 'No much achievements. I just play.', 5),
+    mkPlayer('Feby Mathew Joseph', 'MTech', '1', 'Male', 'Football, Badminton', 'Inter college football tournament winner', 5),
+    mkPlayer('Fayaz Azeem', 'MTech', '1', 'Male', 'Table Tennis', 'N/A', 5),
+    mkPlayer('Bilal Ahamed PT', 'MTech', '1', 'Male', 'Badminton', 'Badminton third prize - btech dept', 5),
+    mkPlayer('Sugithra C S', 'MTech', '1', 'Female', 'Badminton, Chess', 'I have participated international chess competition in 2018 conducted in St Alberts college Ernakulam', 5),
+    mkPlayer('LAKSHMI G BABU', 'MTech', '1', 'Female', 'Chess', 'Nil', 5),
+    mkPlayer('Shreyas R', 'MTech', '2', 'Male', 'Football', '.', 5),
+    mkPlayer('Daniel Suresh', 'MTech', '2', 'Male', 'Football', 'Participated in Sahodya, KTU B.Tech District Level Competitions', 5),
   ]; 
   updateAndBroadcastState(); 
  } 
@@ -183,13 +181,7 @@ const firebaseConfig = {
     el.innerHTML = `<div class="name">${escapeHtml(t.name)}</div><div class="stat"><span>Remaining</span><b>$${fmt(t.remainingBudget)}M</b></div><div class="bar" aria-label="Budget used"><span style="width:${budgetPct}%"></span></div><div class="stat"><span>Male Slots</span><b>${t.maleSlots}</b></div><div class="stat"><span>Female Slots</span><b>${t.femaleSlots}</b></div>`; 
     el.onclick = ()=>{ 
       state.selectedTeamId = t.id; 
-      if(state.activePlayerId){ 
-        const player = getActivePlayer();
-        const incrementAmount = (player && player.gender === 'Female') ? 1 : 5;
-        placeBid(incrementAmount);
-      } else { 
-        renderTeams(); 
-      } 
+      renderTeams(); 
     }; 
     wrap.appendChild(el); 
   }); 
@@ -268,8 +260,7 @@ const firebaseConfig = {
     document.getElementById('activePlayerSports').textContent = ap.sports || '—'; 
     document.getElementById('activePlayerAchievements').textContent = ap.achievements || '—'; 
   } else { 
-    // Keep showing last sold player if no one is active
-    if (!nextPlayerCountdownInterval) { // only clear if countdown isn't running
+    if (!nextPlayerCountdownInterval) {
          document.getElementById('activePlayerLabel').textContent = 'No player nominated';
     }
     document.getElementById('activePlayerSports').textContent = ''; 
@@ -286,7 +277,7 @@ const firebaseConfig = {
     leadWrap.appendChild(chip); 
   } 
   const secLeft = Math.max(0, Math.ceil((state.timer.endAt - Date.now())/1000));
-  if (!nextPlayerCountdownInterval) { // Don't let renderAuction overwrite the countdown display
+  if (!nextPlayerCountdownInterval) {
      document.getElementById('timeLeft').textContent = ap ? secLeft : '--'; 
   }
   const total = state.settings.timerSeconds || 1; 
@@ -297,7 +288,6 @@ const firebaseConfig = {
  } 
 
  function nominateSelected(){ 
-  // NEW: Cancel auto-nomination if a player is nominated manually
   if (nextPlayerCountdownInterval) {
       clearInterval(nextPlayerCountdownInterval);
       nextPlayerCountdownInterval = null;
@@ -312,18 +302,54 @@ const firebaseConfig = {
   p.status = 'Nominated'; 
   state.currentBid = p.baseValue; 
   state.leadingTeamId = null; 
-  updateBidButtons(); 
   startTimer(); 
   updateAndBroadcastState(); 
  } 
 
-function placeBid(increment) {
+ function nominateNext() {
+    let currentIndex = -1;
+    if (state.activePlayerId) {
+        currentIndex = state.players.findIndex(p => p.id === state.activePlayerId);
+    } else if (state.selectedPlayerId) {
+        currentIndex = state.players.findIndex(p => p.id === state.selectedPlayerId);
+    }
+
+    for (let i = 1; i <= state.players.length; i++) {
+        const nextIndex = (currentIndex + i) % state.players.length;
+        const nextPlayer = state.players[nextIndex];
+        if (nextPlayer.status === 'Available') {
+            state.selectedPlayerId = nextPlayer.id;
+            nominateSelected();
+            const activeRow = document.querySelector('tr.active-player');
+            if (activeRow) {
+                activeRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+        }
+    }
+    alert('No more available players found.');
+}
+
+function placeBid() {
     const p = getActivePlayer();
     if (!p) return alert('Nominate a player first.');
     if (!state.selectedTeamId) return alert('Select a team to bid.');
+
+    const bidInput = document.getElementById('directBidInput');
+    const newBid = Number(bidInput.value);
+
+    if (isNaN(newBid) || newBid < 0) {
+        flash('Please enter a valid bid amount.');
+        return;
+    }
+
+    if (newBid <= state.currentBid) {
+        flash(`Bid must be greater than $${fmt(state.currentBid)}M.`);
+        return;
+    }
+
     const team = getTeam(state.selectedTeamId);
-    const nextBid = state.currentBid + increment;
-    if (nextBid > team.remainingBudget) {
+    if (newBid > team.remainingBudget) {
         flash('Team over budget!');
         return;
     }
@@ -335,8 +361,10 @@ function placeBid(increment) {
         flash('No female slots left!');
         return;
     }
-    state.currentBid = nextBid;
+
+    state.currentBid = newBid;
     state.leadingTeamId = team.id;
+    bidInput.value = ''; 
     restartTimer();
 }
 
@@ -355,11 +383,10 @@ function sellToLeading(){
   state.history.push({type:'sale', playerId:p.id, teamId:team.id, price}); 
   stopTimer(); 
   updateAndBroadcastState(); 
-  startNextPlayerCountdown(); // NEW: Trigger the countdown to the next player
+  startNextPlayerCountdown();
  } 
  
  function undoLast(){ 
-  // NEW: Cancel auto-nomination if undo is clicked
   if (nextPlayerCountdownInterval) {
       clearInterval(nextPlayerCountdownInterval);
       nextPlayerCountdownInterval = null;
@@ -375,7 +402,6 @@ function sellToLeading(){
     const gender = p.gender==='Male' ? 'maleSlots':'femaleSlots'; 
     t[gender] += 1; 
     p.status = 'Available'; p.soldPrice=0; p.soldTo=null; 
-    updateBidButtons(); 
     updateAndBroadcastState(); 
   } 
  } 
@@ -445,17 +471,15 @@ function sellToLeading(){
  function clearNomination(){ 
   const p = getActivePlayer(); if(p){ p.status='Available'; } 
   state.activePlayerId=null; state.currentBid=0; state.leadingTeamId=null; 
-  updateBidButtons(); 
   updateAndBroadcastState(); 
  } 
 
-// NEW FUNCTION: Handles the 10-second countdown and auto-nomination
 function startNextPlayerCountdown() {
     if (nextPlayerCountdownInterval) {
         clearInterval(nextPlayerCountdownInterval);
     }
 
-    let secondsRemaining = 10;
+    let secondsRemaining = 30;
     const timeLeftEl = document.getElementById('timeLeft');
     const timerEl = document.getElementById('timer');
     const activePlayerLabelEl = document.getElementById('activePlayerLabel');
@@ -466,7 +490,6 @@ function startNextPlayerCountdown() {
         secondsRemaining--;
         activePlayerLabelEl.textContent = `Next player in ${secondsRemaining}s...`;
         
-        // Use the timer display for a visual countdown
         timeLeftEl.textContent = secondsRemaining;
         const pct = (secondsRemaining / 10);
         timerEl.style.background = `conic-gradient(var(--warning) ${pct * 360}deg, #1e2a47 0deg)`;
@@ -474,8 +497,8 @@ function startNextPlayerCountdown() {
         if (secondsRemaining <= 0) {
             clearInterval(nextPlayerCountdownInterval);
             nextPlayerCountdownInterval = null;
-            timeLeftEl.textContent = '--'; // Reset display
-            timerEl.style.background = '';   // Reset style
+            timeLeftEl.textContent = '--';
+            timerEl.style.background = '';
             flash('Nominating next player...');
             nominateRandom();
         }
@@ -499,28 +522,6 @@ function startNextPlayerCountdown() {
         }
     }
 }
-
-function updateBidButtons() {
-    const player = getActivePlayer();
-    const bid1Btn = document.getElementById('bid1');
-    const bid10Btn = document.getElementById('bid10');
-
-    let increment1 = state.settings.step1;
-    const increment10 = state.settings.step10;
-
-    if (player && player.gender === 'Female') {
-        increment1 = 5;
-    } else {
-        increment1 = state.settings.step1;
-    }
-
-    bid1Btn.textContent = `+ $${increment1}M`;
-    bid10Btn.textContent = `+ $${increment10}M`;
-
-    bid1Btn.dataset.increment = increment1;
-    bid10Btn.dataset.increment = increment10;
-}
-
 
  function openModal(id){ document.getElementById(id).style.display='flex'; } 
  function closeModal(id){ document.getElementById(id).style.display='none'; } 
@@ -695,25 +696,21 @@ function updateBidButtons() {
         if (isBroadcasting) { endBroadcast(); } 
     }); 
     
-    document.getElementById('nominateBtn').onclick = nominateSelected; 
+    document.getElementById('nominateBtn').onclick = nominateSelected;
+    document.getElementById('nominateNextBtn').onclick = nominateNext;
     document.getElementById('returnBtn').onclick = returnPlayerToAuction;
     document.getElementById('randomNominateBtn').onclick = nominateRandom; 
     document.getElementById('sellBtn').onclick = sellToLeading; 
     document.getElementById('resetBid').onclick = resetBid; 
     document.getElementById('btnUndo').onclick = undoLast; 
     
-    document.getElementById('bid1').onclick = (e) => {
-        const increment = Number(e.currentTarget.dataset.increment);
-        if (increment > 0) placeBid(increment);
-    };
-    document.getElementById('bid10').onclick = (e) => {
-        const increment = Number(e.currentTarget.dataset.increment);
-        if (increment > 0) placeBid(increment);
-    };
-    document.getElementById('bidCustom').onclick = () => { 
-      const val = Number(document.getElementById('customBid').value); 
-      if (val > 0) placeBid(val); 
-    }; 
+    document.getElementById('placeBidBtn').onclick = placeBid;
+    document.getElementById('directBidInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); 
+            placeBid();
+        }
+    });
 
     ['search','filterCourse','filterYear','filterGender', 'filterTeam', 'filterStatus'].forEach(id=>{ 
       const el = document.getElementById(id); 
@@ -729,10 +726,7 @@ function updateBidButtons() {
     document.getElementById('resumeBtn').onclick = ()=>{ const f = document.getElementById('resumeFile').files[0]; resumeFromCSV(f); }; 
     
     document.getElementById('saveSettings').onclick = ()=>{ 
-      state.settings.timerSeconds = Math.max(5, Number(document.getElementById('settingTimer').value)||15); 
-      state.settings.step1 = Math.max(1, Number(document.getElementById('settingStep1').value)||1); 
-      state.settings.step10 = Math.max(1, Number(document.getElementById('settingStep10').value)||10); 
-      updateBidButtons(); 
+      state.settings.timerSeconds = Math.max(5, Number(document.getElementById('settingTimer').value)||30); 
       closeModal('settingsModal'); 
       updateAndBroadcastState(); 
     }; 
@@ -742,6 +736,5 @@ function updateBidButtons() {
       if(e.key==='Enter' && document.activeElement && document.activeElement.closest('#playerBody')){ nominateSelected(); } 
     }); 
     
-    updateBidButtons(); 
     seedDemo(); 
  });
