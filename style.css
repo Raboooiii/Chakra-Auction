@@ -80,7 +80,7 @@ button:active{transform:translateY(1px)}
 .bar > span{display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .5s ease} 
 
 .filters{display:flex; gap:8px; flex-wrap:wrap} 
-input[type="text"], select{background:#0c1530; color:var(--text); border:1px solid rgba(255,255,255,.12); padding:10px 12px; border-radius:12px; font-size:14px; outline:none; min-width:120px} 
+input[type="text"], input[type="number"], select{background:#0c1530; color:var(--text); border:1px solid rgba(255,255,255,.12); padding:10px 12px; border-radius:12px; font-size:14px; outline:none; min-width:120px} 
 
 .table-container { 
     width: 100%; 
@@ -208,4 +208,23 @@ tr.active-player{box-shadow:0 0 0 2px rgba(90,194,255,.5) inset; animation: puls
   .bid-buttons, .action-buttons { 
     justify-content: center; 
   } 
+}
+
+/* --- NEW STYLES FOR DIRECT BID --- */
+.direct-bid-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--chip);
+    padding: 8px;
+    border-radius: 12px;
+}
+.direct-bid-container input {
+    flex: 1;
+    min-width: 150px;
+    font-size: 16px;
+}
+.direct-bid-container button {
+    flex-shrink: 0;
 }
