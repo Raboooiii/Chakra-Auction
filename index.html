@@ -27,7 +27,7 @@
       <section class="card"> 
         <h3>Teams</h3> 
         <div id="teams" class="teams"></div> 
-        <div class="note" style="margin-top:8px">Tip: Click a team to bid (+$5M for Male players, +$1M for Female players).</div> 
+        <div class="note" style="margin-top:8px">Tip: Click a team to select it for bidding.</div> 
       </section> 
 
       <section class="card"> 
@@ -62,12 +62,10 @@
         </div> 
         
         <div class="bid-controls"> 
-          <div class="bid-buttons"> 
-            <button id="bid1" class="primary">+ $1M</button> 
-            <button id="bid10" class="primary">+ $10M</button> 
-            <input id="customBid" type="number" min="0" placeholder="Custom increment (M)" /> 
-            <button id="bidCustom" class="primary">Add</button> 
-          </div> 
+          <div class="direct-bid-container">
+            <input id="directBidInput" type="number" min="0" placeholder="Enter total bid (M)" />
+            <button id="placeBidBtn" class="primary">Place Bid</button>
+          </div>
           
           <div class="action-buttons"> 
             <button id="sellBtn" class="success">Sell to Team</button> 
@@ -112,6 +110,7 @@
         </select> 
         <div class="spacer"></div> 
         <button id="nominateBtn" class="warning">Nominate Player</button> 
+        <button id="nominateNextBtn" class="primary">Nominate Next</button>
         <button id="returnBtn" class="danger" style="display: none;">Return Player</button>
         <button id="randomNominateBtn" class="primary">🎲 Random Player</button> 
       </div> 
@@ -172,12 +171,6 @@
       <div class="row" style="gap:12px; flex-wrap:wrap"> 
         <label>Round Timer (seconds)<br> 
           <input id="settingTimer" type="number" min="5" value="15" /> 
-        </label> 
-        <label>Quick Bid Button ($M)<br> 
-          <input id="settingStep1" type="number" min="1" value="1" /> 
-        </label> 
-        <label>Primary Bid Button ($M)<br> 
-          <input id="settingStep10" type="number" min="1" value="10" /> 
         </label> 
       </div> 
       <div class="row" style="margin-top:10px"> 
