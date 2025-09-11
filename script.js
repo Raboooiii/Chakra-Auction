@@ -86,10 +86,10 @@ const firebaseConfig = {
 
  function seedDemo(){ 
   state.teams = [ 
-    mkTeam('Falcons', 500, 12, 5), 
-    mkTeam('Titans', 500, 12, 5), 
-    mkTeam('Warriors', 500, 12, 5), 
-    mkTeam('Spartans', 500, 12, 5) 
+    mkTeam('ELITES', 500, 12, 5), 
+    mkTeam('TITANS', 500, 12, 5), 
+    mkTeam('FIGHTERS', 500, 12, 5), 
+    mkTeam('SPARTANS', 500, 12, 5) 
   ]; 
   state.players = [ 
     mkPlayer('Nazal', 'IMSc', '4', 'Male', 'Football, Basket Ball, Volleyball, Kho-Kho, Handball, Athletics', '.', 50),
